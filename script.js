@@ -34,6 +34,7 @@ function render() {
         deleteButton.addEventListener("click", () =>
         {
             notes = notes.filter((item) => item.id !== note.id);
+            saveNotes();
             render();
             updateCount();
         });
@@ -55,7 +56,7 @@ noteForm.addEventListener("submit", (event) => {
     }
 
     if (text.length > 200) {
-        errorMessage.textContent = "Notes must be 200 characters or fewer";
+        errorMessage.textContent = "Notes must be 200 characters or fewer.";
         return;
     }
 
@@ -69,6 +70,7 @@ noteForm.addEventListener("submit", (event) => {
     };
 
     notes.push(note);
+    saveNotes();
     render();
     updateCount();
 });
@@ -83,4 +85,16 @@ function updateCount() {
     }
 }
 
+function saveNotes() {
+    localStorage.setItem("notes", JSON.stringify(notes));
+}
+
+const savedNotes = localStorage.getItem("notes");
+
+if (savedNotes !== null ) {
+    notes = JSON.parse(savedNotes);
+}
+
+render();
 updateCount();
+
