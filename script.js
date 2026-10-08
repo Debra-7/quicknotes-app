@@ -8,10 +8,23 @@ const errorMessage = document.querySelector("#error-message");
 
 let notes = [];
 
-function render() {
+function render(searchTerm = "") {
     noteList.textContent = "";
 
-    notes.forEach((note) => {
+    const search  = searchTerm.toLowerCase();
+
+    const filteredNotes = notes.filter((note) => 
+        note.text.toLowerCase().includes(search)
+);
+
+    if (filteredNotes.length === 0 && search !== "") {
+        const message = document.createElement("li");
+        message.textContent = "No notes match your search.";
+        noteList.appendChild(message);
+        return;
+    }
+    filteredNotes.forEach((note) => {
+
         const listItem = document.createElement("li");
 
         listItem.classList.add(
@@ -97,4 +110,8 @@ if (savedNotes !== null ) {
 
 render();
 updateCount();
+
+searchInput.addEventListener("input", () => {
+    render(searchInput.value);
+});
 
