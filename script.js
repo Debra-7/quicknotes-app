@@ -87,6 +87,7 @@ noteForm.addEventListener("submit", (event) => {
     saveNotes();
     render();
     updateCount();
+    noteInput.value = "";
 });
 
 function updateCount() {
